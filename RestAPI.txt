@@ -1,0 +1,14 @@
+GET /topics - Список топиков, данные по которым есть данные в этой директории
+GET /topics/<topic_name>/lastrun/timestamp - По каждому топику, таймстемп последнего запуска
+GET /topics/<topic_name>/lastrun/stats - По каждому топику, для последнего запуска, статистику: суммарное число сообщений во всех партициях, максимальное/минимальное число сообщений, среднее число сообщений
+GET /topics/<topic_name>/lastrun/partitions - По каждому топику, список партиций и число сообщений по каждой партиции во время последнего запуска
+
+По каждому запросу возвращается json.
+GET /topics - json-array из объектов {"name":"<topic-name>"} для каждого топика
+GET /topics/<topic_name>/lastrun/timestamp - {"lastEntryTimestamp":"<timestamp>"}, <timestamp> в том же порядке
+GET /topics/<topic_name>/lastrun/stats - {"totalMessages":long,"minimumMessages":long,"maximumMessages":long,"averageMessages":long}
+GET /topics/<topic_name>/lastrun/partitions - json array из объектов {"partitionNumber":int,"messageQuantity":long}
+
+Если в люом из запросов, кроме первого, топика <topicName> не существует, происходит 404: Not found. Если запрашиваются
+данные о последнем запуске при пустой истории, случается 400: Bad request.
+
